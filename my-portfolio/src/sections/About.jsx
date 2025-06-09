@@ -1,131 +1,140 @@
+import React, { useState, useEffect } from 'react';
+
 function About() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [codeIndex, setCodeIndex] = useState(0);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const codeSnippets = [
+    { lang: 'React', code: '<Component />', color: 'from-blue-400 to-cyan-400' },
+    { lang: 'JS', code: '() => magic', color: 'from-yellow-400 to-orange-400' },
+    { lang: 'CSS', code: ':hover { }', color: 'from-pink-400 to-purple-400' },
+    { lang: 'HTML', code: '<div>💡</div>', color: 'from-green-400 to-emerald-400' }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCodeIndex((prev) => (prev + 1) % codeSnippets.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section 
-      id="about" 
-      className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white"
+    <section
+      id="about"
+      className="py-24 px-6 bg-gradient-to-b from-black via-gray-950 to-indigo-950 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+      <div className="absolute top-1/4 left-10 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            About Me
+        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            About <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Me</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Passionate about creating exceptional digital experiences through clean code and thoughtful design
+          <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 mx-auto mb-8"></div>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Passionate about creating exceptional digital experiences through 
+            <span className="text-purple-400 font-medium"> clean code</span> and 
+            <span className="text-indigo-400 font-medium"> thoughtful design</span>
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content Side */}
-          <div className="space-y-6">
-            <div className="prose prose-lg">
-              <p className="text-gray-700 leading-relaxed">
-                I'm a dedicated Frontend Developer with a passion for crafting responsive, 
-                user-centric web applications. My journey in web development began with a 
-                curiosity about how digital experiences shape our daily interactions.
+        <div className="grid items-center">
+          {/* Left Content */}
+          <div className={`space-y-8 transition-all duration-1200 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+            <div className="space-y-6">
+              <p className="text-lg text-gray-300 leading-relaxed">
+                I'm a dedicated <span className="text-purple-400 font-semibold">Frontend Developer</span> with a passion for crafting responsive, 
+                user-centric web applications.
               </p>
-              
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-lg text-gray-300 leading-relaxed">
                 I specialize in building modern web applications using React and cutting-edge 
-                technologies. Every project is an opportunity to solve complex problems with 
-                elegant, scalable solutions that prioritize both user experience and code quality.
+                technologies. I aim for <span className="text-indigo-400 font-semibold">scalable, elegant solutions</span> that delight users and developers alike.
               </p>
             </div>
 
             {/* Skills Grid */}
-            <div className="grid grid-cols-2 gap-6 mt-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">
-                  Frontend
-                </h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-gray-700">React & Next.js</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+              {/* Frontend */}
+              <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300">
+                <h3 className="text-xl font-bold text-white border-b border-purple-500/30 pb-3">Frontend Expertise</h3>
+                {['React & Next.js', 'TypeScript', 'Tailwind CSS'].map((skill, i) => (
+                  <div key={i} className="flex items-center gap-3 group">
+                    <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                    <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-gray-700">TypeScript</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-gray-700">Tailwind CSS</span>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">
-                  Tools & More
-                </h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                    <span className="text-gray-700">Git & GitHub</span>
+              {/* Tools */}
+              <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-indigo-500/20 hover:border-indigo-400/40 transition-all duration-300">
+                <h3 className="text-xl font-bold text-white border-b border-indigo-500/30 pb-3">Tools & Technologies</h3>
+                {['Git & GitHub', 'Responsive Design', 'Performance Optimization'].map((skill, i) => (
+                  <div key={i} className="flex items-center gap-3 group">
+                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                    <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                    <span className="text-gray-700">Responsive Design</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                    <span className="text-gray-700">Performance Optimization</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Stats or Highlights */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">2+</div>
-                <div className="text-sm text-gray-600">Years Learning</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">10+</div>
-                <div className="text-sm text-gray-600">Projects Built</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">100%</div>
-                <div className="text-sm text-gray-600">Commitment</div>
-              </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-6 mt-16 pt-8 border-t border-purple-500/30">
+              {[
+                { number: '3+', label: 'Years Learning', color: 'purple' },
+                { number: '25+', label: 'Projects Built', color: 'indigo' },
+                { number: '100%', label: 'Commitment', color: 'violet' }
+              ].map((stat, i) => (
+                <div key={i} className="text-center group cursor-pointer">
+                  <div className={`text-4xl font-bold text-${stat.color}-400 mb-2 group-hover:scale-110 transition-transform duration-300`}>
+                    {stat.number}
+                  </div>
+                  <div className="text-sm text-gray-400 font-medium">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Visual Side */}
-          <div className="relative">
-            {/* Profile placeholder - you can replace with actual image */}
-            <div className="relative bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-8 shadow-lg">
-              <div className="aspect-square bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white text-6xl font-bold">
-                N
-              </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-500 rounded-full opacity-10"></div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-cyan-500 rounded-full opacity-10"></div>
-            </div>
-
-            {/* Code snippet decoration */}
-            <div className="absolute -bottom-6 -right-6 bg-gray-900 text-green-400 p-4 rounded-lg shadow-lg font-mono text-sm max-w-xs">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              </div>
-              <div className="text-xs leading-relaxed">
-                <span className="text-blue-400">const</span> developer = {'{'}
-                <br />
-                &nbsp;&nbsp;passion: <span className="text-orange-400">'high'</span>,
-                <br />
-                &nbsp;&nbsp;learning: <span className="text-orange-400">'always'</span>
-                <br />
-                {'}'};
-              </div>
-            </div>
-          </div>
+          {/* Right Visual */}
+          
         </div>
       </div>
+
+      {/* Gradient bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-indigo-950 to-transparent"></div>
+
+      {/* Animations */}
+      <style jsx>{`
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        @keyframes orbit {
+          from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+          to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        .animate-orbit {
+          animation: orbit 8s linear infinite;
+        }
+      `}</style>
     </section>
   );
 }

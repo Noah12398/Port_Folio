@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -10,6 +10,11 @@ function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,14 +26,20 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission (replace with your actual form handling)
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus('Please fill in all required fields.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Clear success message after 5 seconds
+
+      // Clear message after 5s
       setTimeout(() => setSubmitStatus(''), 5000);
     }, 1000);
   };
@@ -41,8 +52,9 @@ function Contact() {
         </svg>
       ),
       label: "Email",
-      value: "noah@example.com",
-      link: "mailto:noah@example.com"
+      value: "noahjohnputhayathu05@gmail.com",
+      link: "mailto:noahjohnputhayathu05@gmail.com",
+      color: "from-purple-500 to-purple-400"
     },
     {
       icon: (
@@ -51,8 +63,9 @@ function Contact() {
         </svg>
       ),
       label: "LinkedIn",
-      value: "linkedin.com/in/noah",
-      link: "https://linkedin.com/in/noah"
+      value: "noah-john-puthayathu",
+      link: "https://www.linkedin.com/in/noah-john-puthayathu/",
+      color: "from-indigo-500 to-indigo-400"
     },
     {
       icon: (
@@ -61,8 +74,9 @@ function Contact() {
         </svg>
       ),
       label: "GitHub",
-      value: "github.com/noah",
-      link: "https://github.com/noah"
+      value: "Noah12398",
+      link: "https://github.com/Noah12398",
+      color: "from-violet-500 to-violet-400"
     },
     {
       icon: (
@@ -73,213 +87,84 @@ function Contact() {
       ),
       label: "Location",
       value: "Kerala, India",
-      link: null
+      link: null,
+      color: "from-emerald-500 to-emerald-400"
     }
   ];
 
   return (
-    <section 
-      id="contact" 
-      className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get In Touch
+    <section id="contact" className="py-24 px-6 bg-gradient-to-b from-indigo-950 via-gray-950 to-black relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+      <div className="absolute top-1/3 left-10 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/3 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header */}
+        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Get In <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Touch</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have a project in mind or just want to chat? I'd love to hear from you!
+          <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 mx-auto mb-8"></div>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Ready to bring your ideas to life? Let's collaborate and create something 
+            <span className="text-purple-400 font-medium"> extraordinary</span> together
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Let's Connect
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, interesting projects, 
-                or just having a friendly chat about web development. Feel free to reach out 
-                through any of the channels below.
-              </p>
-            </div>
-
-            {/* Contact Cards */}
-            <div className="space-y-4">
+        <div className="grid lg:grid-cols-2 gap-16">
+          {/* Contact Cards */}
+          <div className={`space-y-8 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+            <h3 className="text-3xl font-bold text-white mb-6">Let's Connect</h3>
+            <p className="text-lg text-gray-300 leading-relaxed mb-8">
+              I'm always excited to discuss new opportunities, innovative projects, or dive deep into conversations about web development and technology.
+            </p>
+            <div className="space-y-6">
               {contactInfo.map((contact, index) => (
                 <div key={index} className="group">
                   {contact.link ? (
-                    <a
-                      href={contact.link}
-                      target={contact.link.startsWith('mailto:') ? '_self' : '_blank'}
-                      rel={contact.link.startsWith('mailto:') ? '' : 'noopener noreferrer'}
-                      className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-blue-200 group-hover:bg-blue-50"
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-200">
+                    <a href={contact.link} target={contact.link.startsWith('mailto:') ? '_self' : '_blank'} rel="noopener noreferrer" className="flex items-center gap-4 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 group-hover:bg-black/40 hover:scale-105">
+                      <div className={`w-14 h-14 bg-gradient-to-r ${contact.color} rounded-xl flex items-center justify-center text-white transition-all`}>
                         {contact.icon}
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                          {contact.label}
-                        </h4>
-                        <p className="text-gray-600 group-hover:text-blue-500 transition-colors">
-                          {contact.value}
-                        </p>
-                      </div>
-                      <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
+                      <div className="flex-grow">
+                        <h4 className="text-lg font-bold text-white group-hover:text-purple-300">{contact.label}</h4>
+                        <p className="text-gray-400 group-hover:text-gray-300">{contact.value}</p>
                       </div>
                     </a>
                   ) : (
-                    <div className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-md border border-gray-100">
-                      <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white">
+                    <div className="flex items-center gap-4 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-purple-500/20">
+                      <div className={`w-14 h-14 bg-gradient-to-r ${contact.color} rounded-xl flex items-center justify-center text-white`}>
                         {contact.icon}
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">
-                          {contact.label}
-                        </h4>
-                        <p className="text-gray-600">
-                          {contact.value}
-                        </p>
+                      <div className="flex-grow">
+                        <h4 className="text-lg font-bold text-white">{contact.label}</h4>
+                        <p className="text-gray-400">{contact.value}</p>
                       </div>
                     </div>
                   )}
                 </div>
               ))}
             </div>
-
-            {/* Quick Response Promise */}
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-lg border border-blue-100">
-              <div className="flex items-center gap-3 mb-2">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h4 className="font-semibold text-blue-900">Quick Response</h4>
-              </div>
-              <p className="text-blue-700 text-sm">
-                I typically respond to emails within 24 hours. For urgent matters, 
-                feel free to connect with me on LinkedIn.
-              </p>
-            </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Send a Message
-            </h3>
-
-            {submitStatus === 'success' && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <div className="flex items-center gap-2 text-green-800">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="font-medium">Message sent successfully!</span>
-                </div>
-                <p className="text-green-600 text-sm mt-1">
-                  Thanks for reaching out. I'll get back to you soon!
-                </p>
-              </div>
+          <form onSubmit={handleSubmit} className={`space-y-6 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <input type="text" name="name" placeholder="Name*" value={formData.name} onChange={handleChange} className="bg-black/20 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+              <input type="email" name="email" placeholder="Email*" value={formData.email} onChange={handleChange} className="bg-black/20 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            </div>
+            <input type="text" name="subject" placeholder="Subject" value={formData.subject} onChange={handleChange} className="w-full bg-black/20 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <textarea name="message" placeholder="Message*" rows="6" value={formData.message} onChange={handleChange} className="w-full bg-black/20 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+            <button type="submit" disabled={isSubmitting} className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-8 rounded-lg font-semibold hover:opacity-90 transition-all">
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
+            {submitStatus && (
+              <p className={`text-sm ${submitStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                {submitStatus === 'success' ? 'Message sent successfully!' : submitStatus}
+              </p>
             )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    placeholder="Your Name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  placeholder="What's this about?"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
-                  placeholder="Tell me about your project or just say hello!"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/25 disabled:hover:scale-100 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <>
-                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </section>
