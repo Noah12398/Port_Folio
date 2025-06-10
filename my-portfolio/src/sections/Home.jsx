@@ -114,9 +114,9 @@ function Home() {
             </button>
           </a>
           <a
-  href="/Resume Final.pdf"
+          
+  href="./Noah_Resume.pdf"
   download="Noah_Resume.pdf"
-  target="_blank"
   rel="noopener noreferrer"
 >
   <button className="group px-8 py-4 border-2 border-gray-600 hover:border-indigo-400 text-gray-200 hover:text-white font-semibold rounded-xl transition-all duration-300 hover:bg-indigo-900/30 backdrop-blur-sm min-w-[180px] relative overflow-hidden">
