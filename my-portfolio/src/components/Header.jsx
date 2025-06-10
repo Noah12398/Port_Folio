@@ -4,7 +4,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = ['Home', 'About', 'Projects', 'Contact'];
+  const navItems = ['Home', 'About', 'Projects','Certificates', 'Contact'];
 
   // Detect scroll to set header style
   useEffect(() => {

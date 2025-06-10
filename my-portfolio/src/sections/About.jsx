@@ -20,31 +20,37 @@ function About() {
       <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            About <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Me</span>
-          </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Passionate about creating exceptional digital experiences through 
-            <span className="text-purple-400 font-medium"> clean code</span> and 
-            <span className="text-indigo-400 font-medium"> thoughtful design</span>
-          </p>
-        </div>
+  <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+    <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+      About <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Me</span>
+    </h2>
+    <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 mx-auto mb-8"></div>
+    <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      Committed to building impactful mobile applications with 
+      <span className="text-purple-400 font-medium"> clean architecture</span> and 
+      <span className="text-indigo-400 font-medium"> intelligent solutions</span> driven by AI/ML.
+    </p>
+  </div>
 
-        <div className="grid items-center">
-          <div className={`space-y-8 transition-all duration-1200 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+  <div className="grid items-center">
+    <div className={`space-y-8 transition-all duration-1200 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+      <div className="space-y-6">
+        <p className="text-lg text-gray-300 leading-relaxed">
+          I'm an enthusiastic <span className="text-purple-400 font-semibold">Android Developer</span> with a strong inclination toward solving real-world problems through mobile technology and artificial intelligence.
+        </p>
+        <p className="text-lg text-gray-300 leading-relaxed">
+          My development toolkit includes <span className="text-indigo-400 font-semibold">Kotlin, Flutter, and Firebase</span>, which I use to craft intuitive and scalable mobile applications that prioritize performance and user experience.
+        </p>
+        <p className="text-lg text-gray-300 leading-relaxed">
+          With a growing passion for <span className="text-purple-400 font-semibold">AI and Machine Learning</span>, I actively integrate predictive models and intelligent features into my apps to enhance functionality and personalization.
+        </p>
+        <p className="text-lg text-gray-300 leading-relaxed">
+          I believe in continuous learning, clean code practices, and building solutions that are not only innovative but also accessible and impactful.
+        </p>
+      </div>
 
-            <div className="space-y-6">
-              <p className="text-lg text-gray-300 leading-relaxed">
-                I'm a dedicated <span className="text-purple-400 font-semibold">Frontend Developer</span> with a passion for crafting responsive, 
-                user-centric web applications.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
-                I specialize in building modern web applications using React and cutting-edge 
-                technologies. I aim for <span className="text-indigo-400 font-semibold">scalable, elegant solutions</span> that delight users and developers alike.
-              </p>
-            </div>
+
+
 
             {/* Skills Grid with Tilt */}
 <div style={{ perspective: '1000px' }} className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
@@ -103,8 +109,8 @@ function About() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mt-16 pt-8 border-t border-purple-500/30">
               {[
-                { number: '3+', label: 'Years Learning', color: 'purple' },
-                { number: '25+', label: 'Projects Built', color: 'indigo' },
+                { number: '2+', label: 'Years Learning', color: 'purple' },
+                { number: '10+', label: 'Projects Built', color: 'indigo' },
                 { number: '100%', label: 'Commitment', color: 'violet' }
               ].map((stat, i) => (
                 <div key={i} className="text-center group cursor-pointer">
