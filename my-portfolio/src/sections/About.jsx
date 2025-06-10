@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TiltCard from '../components/TiltCard';
 
 function About() {
   const [isVisible, setIsVisible] = useState(false);
@@ -6,20 +7,6 @@ function About() {
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
-
-  const codeSnippets = [
-    { lang: 'React', code: '<Component />', color: 'from-blue-400 to-cyan-400' },
-    { lang: 'JS', code: '() => magic', color: 'from-yellow-400 to-orange-400' },
-    { lang: 'CSS', code: ':hover { }', color: 'from-pink-400 to-purple-400' },
-    { lang: 'HTML', code: '<div>💡</div>', color: 'from-green-400 to-emerald-400' }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCodeIndex((prev) => (prev + 1) % codeSnippets.length);
-    }, 2000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -33,7 +20,6 @@ function About() {
       <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section Header */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
             About <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">Me</span>
@@ -47,8 +33,8 @@ function About() {
         </div>
 
         <div className="grid items-center">
-          {/* Left Content */}
           <div className={`space-y-8 transition-all duration-1200 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
+
             <div className="space-y-6">
               <p className="text-lg text-gray-300 leading-relaxed">
                 I'm a dedicated <span className="text-purple-400 font-semibold">Frontend Developer</span> with a passion for crafting responsive, 
@@ -60,30 +46,59 @@ function About() {
               </p>
             </div>
 
-            {/* Skills Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-              {/* Frontend */}
-              <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300">
-                <h3 className="text-xl font-bold text-white border-b border-purple-500/30 pb-3">Frontend Expertise</h3>
-                {['React & Next.js', 'TypeScript', 'Tailwind CSS'].map((skill, i) => (
-                  <div key={i} className="flex items-center gap-3 group">
-                    <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
-                    <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
-                  </div>
-                ))}
-              </div>
+            {/* Skills Grid with Tilt */}
+<div style={{ perspective: '1000px' }} className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
 
-              {/* Tools */}
-              <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-indigo-500/20 hover:border-indigo-400/40 transition-all duration-300">
-                <h3 className="text-xl font-bold text-white border-b border-indigo-500/30 pb-3">Tools & Technologies</h3>
-                {['Git & GitHub', 'Responsive Design', 'Performance Optimization'].map((skill, i) => (
-                  <div key={i} className="flex items-center gap-3 group">
-                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
-                    <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <TiltCard>
+    <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300">
+      <h3 className="text-xl font-bold text-white border-b border-purple-500/30 pb-3">Frontend & UI</h3>
+{['React', 'HTML & CSS', 'Tailwind CSS', 'Bootstrap'].map((skill, i) => (
+        <div key={i} className="flex items-center gap-3 group">
+          <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+          <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
+        </div>
+      ))}
+    </div>
+  </TiltCard>
+
+  <TiltCard>
+    <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-indigo-500/20 hover:border-indigo-400/40 transition-all duration-300">
+      <h3 className="text-xl font-bold text-white border-b border-indigo-500/30 pb-3">Backend & Fullstack</h3>
+      {['Node.js & Express', 'MongoDB / PostgreSQL', 'Firebase / REST APIs', 'Django / Flask'].map((skill, i) => (
+        <div key={i} className="flex items-center gap-3 group">
+          <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+          <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
+        </div>
+      ))}
+    </div>
+  </TiltCard>
+
+  <TiltCard>
+    <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-green-500/20 hover:border-green-400/40 transition-all duration-300">
+      <h3 className="text-xl font-bold text-white border-b border-green-500/30 pb-3">AI / Game / Mobile</h3>
+      {['AI Integration (OpenAI, ML)', 'LibGDX & Game Logic', 'Kotlin + Android Studio', 'Flutter'].map((skill, i) => (
+        <div key={i} className="flex items-center gap-3 group">
+          <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+          <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
+        </div>
+      ))}
+    </div>
+  </TiltCard>
+
+  <TiltCard>
+    <div className="space-y-6 p-6 bg-black/30 backdrop-blur-sm rounded-2xl border border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-300">
+      <h3 className="text-xl font-bold text-white border-b border-yellow-500/30 pb-3">Tools & Contributions</h3>
+      {['Git, GitHub, CI/CD', 'Postman', 'Hackathons & Projects', 'Open Source & Clubs'].map((skill, i) => (
+        <div key={i} className="flex items-center gap-3 group">
+          <div className="w-3 h-3 bg-gradient-to-r from-yellow-500 to-orange-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+          <span className="text-gray-300 group-hover:text-white transition-colors duration-300">{skill}</span>
+        </div>
+      ))}
+    </div>
+  </TiltCard>
+
+</div>
+
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mt-16 pt-8 border-t border-purple-500/30">
@@ -100,17 +115,13 @@ function About() {
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Right Visual */}
-          
+          </div>
         </div>
       </div>
 
-      {/* Gradient bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-indigo-950 to-transparent"></div>
 
-      {/* Animations */}
       <style jsx>{`
         @keyframes gradient {
           0%, 100% { background-position: 0% 50%; }

@@ -24,25 +24,42 @@ function Contact() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitStatus('');
 
-    if (!formData.name || !formData.email || !formData.message) {
-      setSubmitStatus('Please fill in all required fields.');
-      setIsSubmitting(false);
-      return;
-    }
+const googleFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLSc_Q8gPFjSu7w4IEqhKNUiYUi-dXTUlcYGfSifU-xIPzx-anA/formResponse';
+  const formFieldData = {
+  'entry.1612441351': formData.name,
+  'entry.1111688242': formData.email,
+  'entry.263961427': formData.subject,
+  'entry.670730498': formData.message,
+};
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
 
-      // Clear message after 5s
-      setTimeout(() => setSubmitStatus(''), 5000);
-    }, 1000);
-  };
+  const formBody = new URLSearchParams(formFieldData);
+
+  try {
+    console.log('Sending to Google Form:', formBody.toString());
+
+    await fetch(googleFormURL, {
+      method: 'POST',
+      mode: 'no-cors', // Google requires no-cors
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody.toString(),
+    });
+
+    setSubmitStatus('success');
+
+    setFormData({ name: '', email: '', subject: '', message: '' });
+  } catch (err) {
+    setSubmitStatus('Something went wrong.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const contactInfo = [
     {
@@ -87,7 +104,7 @@ function Contact() {
       ),
       label: "Location",
       value: "Kerala, India",
-      link: null,
+      link: "https://www.google.com/maps/place/Muvattupuzha,+Ernakulam,+Kerala",
       color: "from-emerald-500 to-emerald-400"
     }
   ];
