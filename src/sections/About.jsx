@@ -10,10 +10,12 @@ function About() {
   }, []);
 
   return (
-    <section
-      id="about"
-      className="py-24 px-6 bg-gradient-to-b from-black via-gray-950 to-indigo-950 relative overflow-hidden"
-    >
+<section
+  id="about"
+  className="scroll-mt-28 py-24 px-6 bg-gradient-to-b from-black via-gray-950 to-indigo-950 relative overflow-hidden"
+  onMouseEnter={() => console.log('About section hovered')}
+>
+
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
       <div className="absolute top-1/4 left-10 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl animate-pulse"></div>

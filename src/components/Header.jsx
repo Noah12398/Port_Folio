@@ -18,34 +18,40 @@ function Header() {
   }, []);
 
   // Detect active section in view
-  useEffect(() => {
-    const sectionIds = navItems.map(item => item.toLowerCase());
-    const sections = sectionIds.map(id => document.getElementById(id));
+  // Replace the useEffect for detecting active section in your Header component
+useEffect(() => {
+  const sectionIds = navItems.map(item => item.toLowerCase());
+  const sections = sectionIds.map(id => document.getElementById(id));
 
-    const observer = new IntersectionObserver(
-      entries => {
-        const visible = entries.find(entry => entry.isIntersecting);
-        if (visible) {
-          setActiveSection(visible.target.id);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.6,
+  const observer = new IntersectionObserver(
+    entries => {
+      // Sort entries by their intersection ratio (how much is visible)
+      const sortedEntries = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      
+      // Use the section with the highest intersection ratio
+      if (sortedEntries.length > 0) {
+        setActiveSection(sortedEntries[0].target.id);
       }
-    );
+    },
+    {
+      root: null,
+      rootMargin: '-20% 0px -20% 0px', // This creates a "detection zone" in the middle 60% of viewport
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] // Multiple thresholds for better detection
+    }
+  );
 
+  sections.forEach(section => {
+    if (section) observer.observe(section);
+  });
+
+  return () => {
     sections.forEach(section => {
-      if (section) observer.observe(section);
+      if (section) observer.unobserve(section);
     });
-
-    return () => {
-      sections.forEach(section => {
-        if (section) observer.unobserve(section);
-      });
-    };
-  }, [navItems]);
+  };
+}, [navItems]);
 
   // Close mobile menu when clicking on a nav item
   const handleNavClick = () => {
