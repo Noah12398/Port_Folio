@@ -267,7 +267,7 @@ function Home() {
             {/* Fun Feature 1: Mini Dev Puzzle */}
             <div style={{ borderBottom: '1px solid var(--ink-light)', paddingBottom: '0.75rem', marginBottom: '1rem' }}>
               <div style={{ fontFamily: 'var(--font-special)', fontSize: '0.58rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>🧩 Mini Dev Puzzle</span>
+                <span> Mini Dev Puzzle</span>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setRevealedWord(!revealedWord)}>
                     {revealedWord ? 'Hide' : 'Reveal'}
@@ -310,9 +310,9 @@ function Home() {
             </div>
 
             {/* Fun Feature 2: Daily Developer Horoscope */}
-            <div style={{ borderBottom: '1px solid var(--ink-light)', paddingBottom: '0.75rem', marginBottom: '1rem' }}>
+            <div style={{ borderBottom: '1px solid var(--ink-lasight)', paddingBottom: '0.75rem', marginBottom: '1rem' }}>
               <div style={{ fontFamily: 'var(--font-special)', fontSize: '0.58rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)', marginBottom: '4px' }}>
-                🔮 Recruiter's Horoscope
+                 Recruiter's Horoscope
               </div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', lineHeight: 1.4, color: 'var(--ink)', margin: 0, fontStyle: 'italic' }}>
                 "Stars align today for those who connect with Noah. A high-performing CS engineer brings clarity & clean code to your team."
