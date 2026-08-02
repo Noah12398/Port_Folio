@@ -22,6 +22,19 @@
   --font-mono: 'Courier Prime', 'Courier New', monospace;
   --font-special: 'Special Elite', 'Courier New', monospace;
   --font-fraktur: 'UnifrakturMaguntia', cursive;
+  --header-offset: 80px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-offset: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-offset: 60px;
+  }
 }
 
 * {
@@ -30,6 +43,11 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-offset);
+}
+
+section[id] {
+  scroll-margin-top: var(--header-offset);
 }
 
 body {
@@ -60,13 +78,11 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 28px,
-    rgba(0,0,0,0.03) 28px,
-    rgba(0,0,0,0.03) 29px
-  );
+  background-image: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 28px,
+      rgba(0, 0, 0, 0.03) 28px,
+      rgba(0, 0, 0, 0.03) 29px);
   pointer-events: none;
   z-index: 0;
 }
@@ -104,6 +120,7 @@ body {
   border-top: 5px solid var(--rule);
   position: relative;
 }
+
 .rule-triple::after {
   content: '';
   display: block;
@@ -117,6 +134,7 @@ body {
   gap: 8px;
   color: var(--ink-light);
 }
+
 .rule-ornate::before,
 .rule-ornate::after {
   content: '';
@@ -142,7 +160,11 @@ body {
 }
 
 @media (max-width: 768px) {
-  .col-2, .col-3 { column-count: 1; }
+
+  .col-2,
+  .col-3 {
+    column-count: 1;
+  }
 }
 
 /* ==============================
@@ -213,6 +235,7 @@ body {
   text-decoration: none;
   text-transform: uppercase;
 }
+
 .btn-newspaper:hover {
   background: var(--paper);
   color: var(--ink);
@@ -235,6 +258,7 @@ body {
   text-decoration: none;
   text-transform: uppercase;
 }
+
 .btn-newspaper-outline:hover {
   background: var(--ink);
   color: var(--paper);
@@ -256,10 +280,12 @@ body {
   font-size: 0.9rem;
   transition: border-color 0.2s;
 }
+
 .input-newspaper:focus {
   border-color: var(--ink);
   box-shadow: 2px 2px 0 var(--ink);
 }
+
 .input-newspaper::placeholder {
   color: var(--ink-light);
   font-style: italic;
@@ -313,8 +339,15 @@ body {
 ============================== */
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -322,16 +355,36 @@ body {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
-.blink { animation: blink 1.2s step-start infinite; }
+
+.blink {
+  animation: blink 1.2s step-start infinite;
+}
 
 @keyframes scrollDown {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(8px); opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
 }
-.scroll-anim { animation: scrollDown 1.5s ease-in-out infinite; }
+
+.scroll-anim {
+  animation: scrollDown 1.5s ease-in-out infinite;
+}
 
 /* ==============================
    MISC
@@ -361,6 +414,14 @@ img.news-img {
 }
 
 /* Embla carousel */
-.embla { overflow: hidden; }
-.embla__container { display: flex; }
-.embla__slide { flex: 0 0 auto; }
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+}

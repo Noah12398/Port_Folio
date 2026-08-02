@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const clickTarget = useRef(null);
   const [currentDate] = useState(() => {
     const d = new Date();
     return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -18,20 +19,61 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const sectionIds = navItems.map(item => item.toLowerCase());
-    const sections = sectionIds.map(id => document.getElementById(id));
-    const observer = new IntersectionObserver(
-      entries => {
-        const sorted = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (sorted.length > 0) setActiveSection(sorted[0].target.id);
-      },
-      { root: null, rootMargin: '-20% 0px -20% 0px', threshold: [0, 0.1, 0.5, 1.0] }
-    );
-    sections.forEach(s => s && observer.observe(s));
-    return () => sections.forEach(s => s && observer.unobserve(s));
+    // Dynamically read the actual header height instead of guessing
+    const getMargin = () => {
+      const header = document.querySelector('header');
+      return header ? header.getBoundingClientRect().height + 10 : 90;
+    };
+    let fallbackTimer = null;
+
+    const detectActiveSection = () => {
+      const ids = ['home', 'about', 'experience', 'projects', 'certificates', 'contact'];
+      const margin = getMargin();
+      for (let i = ids.length - 1; i >= 0; i--) {
+        const el = document.getElementById(ids[i]);
+        if (el && el.getBoundingClientRect().top <= margin) {
+          return ids[i];
+        }
+      }
+      return 'home';
+    };
+
+    const confirmSection = () => {
+      if (clickTarget.current) {
+        setActiveSection(detectActiveSection());
+        clickTarget.current = null;
+      }
+    };
+
+    // During scroll: if a nav link was clicked, block detection entirely
+    const onScroll = () => {
+      if (clickTarget.current) {
+        // Fallback: 600ms after last scroll event, confirm whatever is visible
+        clearTimeout(fallbackTimer);
+        fallbackTimer = setTimeout(confirmSection, 600);
+        return;
+      }
+      setActiveSection(detectActiveSection());
+    };
+
+    // scrollend fires exactly once when smooth scroll fully completes
+    const onScrollEnd = () => confirmSection();
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scrollend', onScrollEnd, { passive: true });
+    setActiveSection(detectActiveSection());
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scrollend', onScrollEnd);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
+
+  const handleNavClick = (id) => {
+    clickTarget.current = id;
+    setActiveSection(id);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -42,6 +84,7 @@ function Header() {
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMobileMenuOpen]);
+
 
   return (
     <header
@@ -60,12 +103,13 @@ function Header() {
       {/* Masthead top bar */}
       <div style={{
         borderBottom: '1px solid var(--ink-light)',
-        display: 'flex',
+        display: isScrolled ? 'none' : 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '3px 1.5rem',
+        transition: 'all 0.3s',
       }}>
         <span style={{ fontFamily: 'var(--font-special)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)' }}>
           Est. 2024
@@ -81,28 +125,32 @@ function Header() {
       {/* Masthead name */}
       <div style={{
         textAlign: 'center',
-        padding: '8px 1.5rem 6px',
+        padding: isScrolled ? '4px 1.5rem 3px' : '8px 1.5rem 6px',
         borderBottom: '3px double var(--ink)',
+        transition: 'all 0.3s',
       }}>
         <div style={{
           fontFamily: 'var(--font-fraktur)',
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontSize: isScrolled ? 'clamp(1.4rem, 3.5vw, 2.2rem)' : 'clamp(2rem, 5vw, 3.5rem)',
           color: 'var(--ink)',
           lineHeight: 1,
           letterSpacing: '0.02em',
+          transition: 'all 0.3s',
         }}>
           Noah John Puthayathu
         </div>
-        <div style={{
-          fontFamily: 'var(--font-special)',
-          fontSize: '0.65rem',
-          textTransform: 'uppercase',
-          letterSpacing: '0.3em',
-          color: 'var(--ink-light)',
-          marginTop: '3px',
-        }}>
-          ✦ Developer's Chronicle ✦
-        </div>
+        {!isScrolled && (
+          <div style={{
+            fontFamily: 'var(--font-special)',
+            fontSize: '0.65rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.3em',
+            color: 'var(--ink-light)',
+            marginTop: '3px',
+          }}>
+            ✦ Developer's Chronicle ✦
+          </div>
+        )}
       </div>
 
       {/* Navigation */}
@@ -122,6 +170,7 @@ function Header() {
               <li key={item} style={{ borderRight: i < navItems.length - 1 ? '1px solid var(--ink-light)' : 'none' }}>
                 <a
                   href={`#${id}`}
+                  onClick={() => handleNavClick(id)}
                   style={{
                     display: 'block',
                     padding: '6px 20px',
@@ -190,7 +239,10 @@ function Header() {
                   <a
                     key={item}
                     href={`#${id}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      handleNavClick(id);
+                      setIsMobileMenuOpen(false);
+                    }}
                     style={{
                       display: 'block',
                       padding: '10px 20px',
