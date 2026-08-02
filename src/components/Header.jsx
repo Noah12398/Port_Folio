@@ -4,195 +4,215 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentDate] = useState(() => {
+    const d = new Date();
+    return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  });
 
-  const navItems = ['Home', 'About', 'Projects','Certificates', 'Contact'];
+  const navItems = ['Home', 'About', 'Projects', 'Certificates', 'Contact'];
 
-  // Detect scroll to set header style
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Detect active section in view
-  // Replace the useEffect for detecting active section in your Header component
-useEffect(() => {
-  const sectionIds = navItems.map(item => item.toLowerCase());
-  const sections = sectionIds.map(id => document.getElementById(id));
-
-  const observer = new IntersectionObserver(
-    entries => {
-      // Sort entries by their intersection ratio (how much is visible)
-      const sortedEntries = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-      
-      // Use the section with the highest intersection ratio
-      if (sortedEntries.length > 0) {
-        setActiveSection(sortedEntries[0].target.id);
-      }
-    },
-    {
-      root: null,
-      rootMargin: '-20% 0px -20% 0px', // This creates a "detection zone" in the middle 60% of viewport
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] // Multiple thresholds for better detection
-    }
-  );
-
-  sections.forEach(section => {
-    if (section) observer.observe(section);
-  });
-
-  return () => {
-    sections.forEach(section => {
-      if (section) observer.unobserve(section);
-    });
-  };
-}, [navItems]);
-
-  // Close mobile menu when clicking on a nav item
-  const handleNavClick = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  // Close mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container')) {
+    const sectionIds = navItems.map(item => item.toLowerCase());
+    const sections = sectionIds.map(id => document.getElementById(id));
+    const observer = new IntersectionObserver(
+      entries => {
+        const sorted = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (sorted.length > 0) setActiveSection(sorted[0].target.id);
+      },
+      { root: null, rootMargin: '-20% 0px -20% 0px', threshold: [0, 0.1, 0.5, 1.0] }
+    );
+    sections.forEach(s => s && observer.observe(s));
+    return () => sections.forEach(s => s && observer.unobserve(s));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isMobileMenuOpen && !e.target.closest('.mobile-menu-container')) {
         setIsMobileMenuOpen(false);
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [isMobileMenuOpen]);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-black/90 backdrop-blur-md shadow-2xl border-b border-purple-500/30'
-          : 'bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm'
-      }`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        backgroundColor: 'var(--paper)',
+        borderBottom: isScrolled ? '3px double var(--ink)' : '1px solid var(--ink)',
+        transition: 'border 0.3s',
+        fontFamily: 'var(--font-special)',
+      }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-900/5 via-transparent to-indigo-900/5"></div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 relative z-10">
-        <nav className="flex justify-between items-center">
-          {/* Logo and Name */}
-          <div className="flex items-center gap-2 sm:gap-3 group">
-            <div className="relative">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white font-bold text-sm sm:text-lg">N</span>
-              </div>
-              <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping"></div>
-            </div>
-
-            <div className="text-lg sm:text-2xl font-bold">
-              <span className="bg-gradient-to-r from-white via-purple-200 to-indigo-200 bg-clip-text text-transparent">
-                Noah
-              </span>
-              <span className="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent ml-1 sm:ml-2">
-                John Puthayathu
-              </span>
-            </div>
-          </div>
-
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex space-x-1">
-            {navItems.map(item => {
-              const id = item.toLowerCase();
-              return (
-                <li key={item}>
-                  <a
-                    href={`#${id}`}
-                    className={`relative px-6 py-3 rounded-xl font-medium transition-all duration-300 group ${
-                      activeSection === id
-                        ? 'text-white bg-gradient-to-r from-purple-500/20 to-indigo-500/20 backdrop-blur-sm border border-purple-500/30'
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <span className="relative z-10 group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-indigo-300 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                      {item}
-                    </span>
-                    {activeSection === id && (
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full animate-pulse"></div>
-                    )}
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-indigo-400 group-hover:w-8 transition-all duration-300"></div>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* Mobile Hamburger Button */}
-          <div className="md:hidden mobile-menu-container">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="relative w-10 h-10 rounded-lg bg-gradient-to-r from-purple-500/20 to-indigo-500/20 backdrop-blur-sm border border-purple-500/30 flex items-center justify-center group hover:from-purple-500/30 hover:to-indigo-500/30 transition-all duration-300"
-              aria-label="Toggle mobile menu"
-            >
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex flex-col justify-center items-center w-5 h-5 group">
-                <span className={`block h-0.5 w-5 bg-gradient-to-r from-purple-300 to-indigo-300 rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-                <span className={`block h-0.5 w-5 bg-gradient-to-r from-purple-300 to-indigo-300 rounded-full mt-1 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-                <span className={`block h-0.5 w-5 bg-gradient-to-r from-purple-300 to-indigo-300 rounded-full mt-1 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-              </div>
-            </button>
-
-            {/* Mobile Menu Dropdown */}
-            <div className={`absolute top-full right-0 mt-2 w-56 transition-all duration-300 ${
-              isMobileMenuOpen 
-                ? 'opacity-100 visible transform scale-100' 
-                : 'opacity-0 invisible transform scale-95'
-            }`}>
-              <div className="bg-black/95 backdrop-blur-md rounded-2xl border border-purple-500/30 shadow-2xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 to-indigo-900/10"></div>
-                <div className="relative">
-                  {navItems.map((item, index) => {
-                    const id = item.toLowerCase();
-                    return (
-                      <a
-                        key={item}
-                        href={`#${id}`}
-                        onClick={handleNavClick}
-                        className={`block px-6 py-4 font-medium transition-all duration-300 group relative ${
-                          activeSection === id
-                            ? 'text-white bg-gradient-to-r from-purple-500/20 to-indigo-500/20'
-                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                        } ${index !== navItems.length - 1 ? 'border-b border-purple-500/20' : ''}`}
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="relative flex items-center justify-between">
-                          <span className="group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-indigo-300 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                            {item}
-                          </span>
-                          {activeSection === id && (
-                            <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full animate-pulse"></div>
-                          )}
-                        </div>
-                        <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
+      {/* Masthead top bar */}
+      <div style={{
+        borderBottom: '1px solid var(--ink-light)',
+        padding: '3px 0',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '3px 1.5rem',
+      }}>
+        <span style={{ fontFamily: 'var(--font-special)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)' }}>
+          Est. 2024
+        </span>
+        <span style={{ fontFamily: 'var(--font-special)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.10em', color: 'var(--ink-light)' }}>
+          {currentDate}
+        </span>
+        <span style={{ fontFamily: 'var(--font-special)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)' }}>
+          Portfolio Edition
+        </span>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+      {/* Masthead name */}
+      <div style={{
+        textAlign: 'center',
+        padding: '8px 1.5rem 6px',
+        borderBottom: '3px double var(--ink)',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-fraktur)',
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          color: 'var(--ink)',
+          lineHeight: 1,
+          letterSpacing: '0.02em',
+        }}>
+          Noah John Puthayathu
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-special)',
+          fontSize: '0.65rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.3em',
+          color: 'var(--ink-light)',
+          marginTop: '3px',
+        }}>
+          ✦ Developer's Chronicle ✦
+        </div>
+      </div>
 
-      {/* Floating particles */}
-      <div className="absolute top-2 left-1/4 w-1 h-1 bg-purple-400/40 rounded-full animate-ping" style={{ animationDelay: '0s' }}></div>
-      <div className="absolute top-4 right-1/3 w-1 h-1 bg-indigo-400/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute bottom-2 left-1/2 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping" style={{ animationDelay: '2s' }}></div>
+      {/* Navigation */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
+        {/* Desktop nav */}
+        <ul style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 0,
+          listStyle: 'none',
+          padding: '0',
+          margin: '0',
+        }} className="hidden md:flex">
+          {navItems.map((item, i) => {
+            const id = item.toLowerCase();
+            return (
+              <li key={item} style={{ borderRight: i < navItems.length - 1 ? '1px solid var(--ink-light)' : 'none' }}>
+                <a
+                  href={`#${id}`}
+                  style={{
+                    display: 'block',
+                    padding: '6px 20px',
+                    fontFamily: 'var(--font-special)',
+                    fontSize: '0.75rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.12em',
+                    textDecoration: 'none',
+                    color: activeSection === id ? 'var(--paper)' : 'var(--ink)',
+                    backgroundColor: activeSection === id ? 'var(--ink)' : 'transparent',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={e => {
+                    if (activeSection !== id) {
+                      e.currentTarget.style.backgroundColor = 'var(--ink-mid)';
+                      e.currentTarget.style.color = 'var(--paper)';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (activeSection !== id) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--ink)';
+                    }
+                  }}
+                >
+                  {item}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Mobile hamburger */}
+        <div className="md:hidden mobile-menu-container" style={{ position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)' }}>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              background: 'none',
+              border: '1px solid var(--ink)',
+              padding: '4px 8px',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-special)',
+              fontSize: '1rem',
+              color: 'var(--ink)',
+            }}
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          {/* Mobile dropdown */}
+          {isMobileMenuOpen && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              backgroundColor: 'var(--paper)',
+              border: '2px solid var(--ink)',
+              minWidth: '180px',
+              zIndex: 100,
+              boxShadow: '4px 4px 0 var(--ink)',
+            }}>
+              {navItems.map((item, i) => {
+                const id = item.toLowerCase();
+                return (
+                  <a
+                    key={item}
+                    href={`#${id}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    style={{
+                      display: 'block',
+                      padding: '10px 20px',
+                      fontFamily: 'var(--font-special)',
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      textDecoration: 'none',
+                      color: activeSection === id ? 'var(--paper)' : 'var(--ink)',
+                      backgroundColor: activeSection === id ? 'var(--ink)' : 'transparent',
+                      borderBottom: i < navItems.length - 1 ? '1px solid var(--ink-light)' : 'none',
+                    }}
+                  >
+                    {item}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
     </header>
   );
 }

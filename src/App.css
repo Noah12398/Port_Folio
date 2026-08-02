@@ -1,34 +1,367 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* body {
-  font-family: 'Arial', sans-serif;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ==============================
+   NEWSPAPER DESIGN SYSTEM
+============================== */
+
+:root {
+  --ink: #0a0a0a;
+  --paper: #f5f0e8;
+  --paper-dark: #ede8d8;
+  --paper-mid: #f0ebe0;
+  --ink-mid: #2a2a2a;
+  --ink-light: #4a4a4a;
+  --rule: #1a1a1a;
+  --rule-light: #666;
+  --font-headline: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'IM Fell English', 'Georgia', serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
+  --font-special: 'Special Elite', 'Courier New', monospace;
+  --font-fraktur: 'UnifrakturMaguntia', cursive;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-.section {
-  padding: 60px 20px;
-  text-align: center;
+/* ==============================
+   NEWSPAPER TEXTURES & EFFECTS
+============================== */
+
+.paper-texture {
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
-.nav {
+.newsprint {
+  background-color: var(--paper);
+  position: relative;
+}
+
+.newsprint::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 28px,
+    rgba(0,0,0,0.03) 28px,
+    rgba(0,0,0,0.03) 29px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==============================
+   TYPOGRAPHY
+============================== */
+
+.masthead-font {
+  font-family: var(--font-fraktur);
+}
+
+.headline-font {
+  font-family: var(--font-headline);
+}
+
+.body-font {
+  font-family: var(--font-body);
+}
+
+.typewriter-font {
+  font-family: var(--font-special);
+}
+
+.mono-font {
+  font-family: var(--font-mono);
+}
+
+/* Decorative rules */
+.rule-double {
+  border-top: 3px double var(--rule);
+}
+
+.rule-triple {
+  border-top: 5px solid var(--rule);
+  position: relative;
+}
+.rule-triple::after {
+  content: '';
+  display: block;
+  border-top: 1px solid var(--rule);
+  margin-top: 3px;
+}
+
+.rule-ornate {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  list-style: none;
-  padding: 20px;
-  background: #f5f5f5;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-light);
+}
+.rule-ornate::before,
+.rule-ornate::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
 }
 
-.nav a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
+/* ==============================
+   NEWSPAPER COLUMNS
+============================== */
+
+.col-2 {
+  column-count: 2;
+  column-gap: 2rem;
+  column-rule: 1px solid var(--rule-light);
 }
 
-footer {
-  background: #f0f0f0;
-  padding: 20px;
+.col-3 {
+  column-count: 3;
+  column-gap: 1.5rem;
+  column-rule: 1px solid var(--rule-light);
+}
+
+@media (max-width: 768px) {
+  .col-2, .col-3 { column-count: 1; }
+}
+
+/* ==============================
+   PULLQUOTE / DROPCAP
+============================== */
+
+.dropcap::first-letter {
+  float: left;
+  font-family: var(--font-headline);
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 0.75;
+  margin-right: 0.1em;
+  margin-top: 0.05em;
+  color: var(--ink);
+}
+
+.pullquote {
+  border-left: 4px solid var(--ink);
+  border-right: 4px solid var(--ink);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-style: italic;
   text-align: center;
-} */
+}
+
+/* ==============================
+   CARDS / BOXES
+============================== */
+
+.news-card {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  position: relative;
+}
+
+.news-card-featured {
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.news-card-inset {
+  border: 1px solid var(--ink);
+  border-top: 4px solid var(--ink);
+  background: var(--paper-dark);
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+
+.btn-newspaper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-special);
+  letter-spacing: 0.05em;
+  border: 2px solid var(--ink);
+  padding: 0.6rem 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.btn-newspaper:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn-newspaper-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-special);
+  letter-spacing: 0.05em;
+  border: 2px solid var(--ink);
+  padding: 0.6rem 1.5rem;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.btn-newspaper-outline:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ==============================
+   FORMS
+============================== */
+
+.input-newspaper {
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  padding: 0.75rem 1rem;
+  width: 100%;
+  outline: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+.input-newspaper:focus {
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.input-newspaper::placeholder {
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+/* ==============================
+   TAGS / BADGES
+============================== */
+
+.tag-newspaper {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  font-family: var(--font-special);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--paper-dark);
+}
+
+.tag-newspaper-filled {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-special);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ==============================
+   SECTION HEADERS
+============================== */
+
+.section-header {
+  text-align: center;
+  padding: 1.5rem 0 1rem;
+  position: relative;
+}
+
+.section-dateline {
+  font-family: var(--font-special);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-light);
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.blink { animation: blink 1.2s step-start infinite; }
+
+@keyframes scrollDown {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(8px); opacity: 0; }
+}
+.scroll-anim { animation: scrollDown 1.5s ease-in-out infinite; }
+
+/* ==============================
+   MISC
+============================== */
+
+.divider-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--ink-light);
+  letter-spacing: 0.5em;
+}
+
+img.news-img {
+  filter: grayscale(100%) contrast(1.1);
+  border: 1px solid var(--ink);
+}
+
+.rotated-label {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  font-family: var(--font-special);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Embla carousel */
+.embla { overflow: hidden; }
+.embla__container { display: flex; }
+.embla__slide { flex: 0 0 auto; }
