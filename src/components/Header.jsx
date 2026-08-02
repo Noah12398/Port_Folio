@@ -122,40 +122,112 @@ function Header() {
         </span>
       </div>
 
-      {/* Masthead name */}
-      <div style={{
-        textAlign: 'center',
-        padding: isScrolled ? '4px 1.5rem 3px' : '8px 1.5rem 6px',
-        borderBottom: '3px double var(--ink)',
-        transition: 'all 0.3s',
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-fraktur)',
-          fontSize: isScrolled ? 'clamp(1.4rem, 3.5vw, 2.2rem)' : 'clamp(2rem, 5vw, 3.5rem)',
-          color: 'var(--ink)',
-          lineHeight: 1,
-          letterSpacing: '0.02em',
+      {/* Masthead name & Mobile Hamburger Container */}
+      <div
+        className="flex items-center justify-between md:justify-center relative"
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: isScrolled ? '6px 1rem' : '10px 1rem 8px',
+          borderBottom: isScrolled ? 'none' : '3px double var(--ink)',
           transition: 'all 0.3s',
-        }}>
-          Noah John Puthayathu
-        </div>
-        {!isScrolled && (
+        }}
+      >
+        <div style={{ textAlign: 'center' }} className="flex-1 md:flex-initial">
           <div style={{
-            fontFamily: 'var(--font-special)',
-            fontSize: '0.65rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.3em',
-            color: 'var(--ink-light)',
-            marginTop: '3px',
+            fontFamily: 'var(--font-fraktur)',
+            fontSize: isScrolled ? 'clamp(1.1rem, 4vw, 1.8rem)' : 'clamp(1.3rem, 4.5vw, 3rem)',
+            color: 'var(--ink)',
+            lineHeight: 1.1,
+            letterSpacing: '0.01em',
+            transition: 'all 0.3s',
           }}>
-            ✦ Developer's Chronicle ✦
+            Noah John Puthayathu
           </div>
-        )}
+          {!isScrolled && (
+            <div style={{
+              fontFamily: 'var(--font-special)',
+              fontSize: '0.6rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              color: 'var(--ink-light)',
+              marginTop: '3px',
+            }} className="hidden sm:block">
+              ✦ Developer's Chronicle ✦
+            </div>
+          )}
+        </div>
+
+        {/* Mobile hamburger button cleanly placed in flow without absolute positioning overlap */}
+        <div className="md:hidden mobile-menu-container" style={{ position: 'relative', flexShrink: 0, marginLeft: '8px' }}>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              background: 'var(--paper)',
+              border: '1px solid var(--ink)',
+              padding: '4px 8px',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-special)',
+              fontSize: '0.75rem',
+              color: 'var(--ink)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: '2px 2px 0 var(--ink)',
+              whiteSpace: 'nowrap',
+            }}
+            aria-label="Toggle mobile menu"
+          >
+            <span>{isMobileMenuOpen ? '✕' : '☰ MENU'}</span>
+          </button>
+
+          {/* Mobile dropdown drawer */}
+          {isMobileMenuOpen && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 6px)',
+              right: 0,
+              backgroundColor: 'var(--paper)',
+              border: '2px solid var(--ink)',
+              minWidth: '190px',
+              zIndex: 100,
+              boxShadow: '4px 4px 0 var(--ink)',
+            }}>
+              {navItems.map((item, i) => {
+                const id = item.toLowerCase();
+                return (
+                  <a
+                    key={item}
+                    href={`#${id}`}
+                    onClick={() => {
+                      handleNavClick(id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'block',
+                      padding: '10px 16px',
+                      fontFamily: 'var(--font-special)',
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      textDecoration: 'none',
+                      color: activeSection === id ? 'var(--paper)' : 'var(--ink)',
+                      backgroundColor: activeSection === id ? 'var(--ink)' : 'transparent',
+                      borderBottom: i < navItems.length - 1 ? '1px solid var(--ink-light)' : 'none',
+                      fontWeight: activeSection === id ? 'bold' : 'normal',
+                    }}
+                  >
+                    {activeSection === id ? `► ${item}` : item}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Navigation */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
-        {/* Desktop nav */}
+      {/* Desktop Navigation Bar (Only renders space on desktop) */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }} className="hidden md:block">
         <ul style={{
           display: 'flex',
           justifyContent: 'center',
@@ -163,7 +235,7 @@ function Header() {
           listStyle: 'none',
           padding: '0',
           margin: '0',
-        }} className="hidden md:flex">
+        }}>
           {navItems.map((item, i) => {
             const id = item.toLowerCase();
             return (
@@ -202,67 +274,6 @@ function Header() {
             );
           })}
         </ul>
-
-        {/* Mobile hamburger */}
-        <div className="md:hidden mobile-menu-container" style={{ position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)' }}>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            style={{
-              background: 'none',
-              border: '1px solid var(--ink)',
-              padding: '4px 8px',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-special)',
-              fontSize: '1rem',
-              color: 'var(--ink)',
-            }}
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? '✕' : '☰'}
-          </button>
-
-          {/* Mobile dropdown */}
-          {isMobileMenuOpen && (
-            <div style={{
-              position: 'absolute',
-              top: '100%',
-              right: 0,
-              backgroundColor: 'var(--paper)',
-              border: '2px solid var(--ink)',
-              minWidth: '180px',
-              zIndex: 100,
-              boxShadow: '4px 4px 0 var(--ink)',
-            }}>
-              {navItems.map((item, i) => {
-                const id = item.toLowerCase();
-                return (
-                  <a
-                    key={item}
-                    href={`#${id}`}
-                    onClick={() => {
-                      handleNavClick(id);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'block',
-                      padding: '10px 20px',
-                      fontFamily: 'var(--font-special)',
-                      fontSize: '0.75rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      textDecoration: 'none',
-                      color: activeSection === id ? 'var(--paper)' : 'var(--ink)',
-                      backgroundColor: activeSection === id ? 'var(--ink)' : 'transparent',
-                      borderBottom: i < navItems.length - 1 ? '1px solid var(--ink-light)' : 'none',
-                    }}
-                  >
-                    {item}
-                  </a>
-                );
-              })}
-            </div>
-          )}
-        </div>
       </div>
     </header>
   );
