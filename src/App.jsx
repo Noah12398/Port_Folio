@@ -1,6 +1,7 @@
 import './App.css'
 import Home from './sections/Home'
 import About from './sections/About'
+import Experience from './sections/Experience'
 import Projects from './sections/Projects'
 import Contact from './sections/Contact'
 import Header from './components/Header'
@@ -14,8 +15,9 @@ function App() {
       <main>
         <Home />
         <About />
+        <Experience />
         <Projects />
-        <Certificates/>
+        <Certificates />
         <Contact />
       </main>
       <Footer />

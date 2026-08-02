@@ -2,16 +2,39 @@ import React, { useState, useEffect } from 'react';
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const skills = ['React', 'Flutter', 'Kotlin', 'Python', 'Java'];
-  const [currentSkill, setCurrentSkill] = useState(0);
+  const skills = ['React & Svelte', 'FastAPI & Python', 'TypeScript & Node.js', 'Flutter & Mobile', 'AI & Machine Learning'];
+  const [displayText, setDisplayText] = useState('');
+  const [skillIndex, setSkillIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
-    const interval = setInterval(() => {
-      setCurrentSkill(prev => (prev + 1) % skills.length);
-    }, 2500);
-    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const targetWord = skills[skillIndex];
+    let speed = isDeleting ? 40 : 85;
+
+    if (!isDeleting && displayText === targetWord) {
+      speed = 2000; // Pause when word is fully typed
+    } else if (isDeleting && displayText === '') {
+      setIsDeleting(false);
+      setSkillIndex(prev => (prev + 1) % skills.length);
+      speed = 400; // Brief pause before starting next word
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setDisplayText(prev =>
+        isDeleting ? targetWord.substring(0, prev.length - 1) : targetWord.substring(0, prev.length + 1)
+      );
+      if (!isDeleting && displayText === targetWord) {
+        setIsDeleting(true);
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, skillIndex, skills]);
 
   return (
     <section
@@ -81,7 +104,7 @@ function Home() {
         {/* Rule under headline */}
         <div style={{ borderTop: '3px double var(--ink)', marginBottom: '1.5rem' }} />
 
-        {/* Skill cycling */}
+        {/* Typewriter Skill Cycling */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <p style={{
             fontFamily: 'var(--font-body)',
@@ -91,17 +114,17 @@ function Home() {
           }}>
             Specializing in{' '}
             <span
-              key={currentSkill}
               style={{
                 fontFamily: 'var(--font-headline)',
                 fontWeight: 700,
                 color: 'var(--ink)',
                 fontStyle: 'normal',
-                borderBottom: '2px solid var(--ink)',
-                animation: 'fadeIn 0.4s ease',
+                borderBottom: '1px solid var(--ink)',
+                paddingBottom: '1px',
               }}
             >
-              {skills[currentSkill]}
+              {displayText}
+              <span className="blink" style={{ fontWeight: 300, opacity: 0.5, marginLeft: '2px' }}>|</span>
             </span>
           </p>
         </div>
@@ -142,10 +165,7 @@ function Home() {
           }}
             className="dropcap"
           >
-            "I specialize in transforming innovative ideas into{' '}
-            <strong>scalable, real-world solutions</strong>{' '}
-            by leveraging clean, modern technologies and best coding practices
-            — ensuring performance, maintainability, and a seamless user experience."
+            "Motivated Computer Science and Engineering student with skills in full-stack web development, machine learning, and Android development. Passionate about building scalable software solutions for real-world problems and exploring AI/ML research through practical projects and experimentation."
           </p>
         </div>
 

@@ -45,6 +45,12 @@ function Contact() {
 
   const contactInfo = [
     {
+      label: 'Phone',
+      value: '+91-8547728350',
+      link: 'tel:+918547728350',
+      symbol: '☎',
+    },
+    {
       label: 'Email',
       value: 'noahjohnputhayathu05@gmail.com',
       link: 'mailto:noahjohnputhayathu05@gmail.com',
@@ -64,8 +70,8 @@ function Contact() {
     },
     {
       label: 'Location',
-      value: 'Kerala, India',
-      link: 'https://www.google.com/maps/place/Muvattupuzha,+Ernakulam,+Kerala',
+      value: 'Kollam, Kerala, India',
+      link: 'https://www.google.com/maps/place/Kollam,+Kerala',
       symbol: '◉',
     },
   ];

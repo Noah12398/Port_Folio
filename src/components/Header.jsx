@@ -9,7 +9,7 @@ function Header() {
     return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   });
 
-  const navItems = ['Home', 'About', 'Projects', 'Certificates', 'Contact'];
+  const navItems = ['Home', 'About', 'Experience', 'Projects', 'Certificates', 'Contact'];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -60,7 +60,6 @@ function Header() {
       {/* Masthead top bar */}
       <div style={{
         borderBottom: '1px solid var(--ink-light)',
-        padding: '3px 0',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

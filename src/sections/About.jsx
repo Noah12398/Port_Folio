@@ -12,29 +12,29 @@ function About() {
     {
       category: 'Frontend & UI',
       mark: '§ I',
-      items: ['React', 'HTML & CSS', 'Tailwind CSS', 'Bootstrap'],
+      items: ['React', 'Svelte', 'TypeScript', 'HTML & CSS', 'Tailwind CSS', 'Bootstrap'],
     },
     {
       category: 'Backend & Fullstack',
       mark: '§ II',
-      items: ['Node.js & Express', 'MongoDB / PostgreSQL', 'Firebase / REST APIs', 'Django / Flask'],
+      items: ['Node.js / Express', 'FastAPI / Flask / Django', 'MongoDB / PostgreSQL', 'Firebase / REST APIs', 'PostGIS / Supabase'],
     },
     {
-      category: 'AI / Game / Mobile',
+      category: 'AI / ML / Mobile',
       mark: '§ III',
-      items: ['AI Integration (OpenAI, ML)', 'LibGDX & Game Logic', 'Kotlin + Android Studio', 'Flutter'],
+      items: ['OpenAI / CLIP / FAISS', 'NLP & RAG Pipelines', 'Sentence-BERT', 'Kotlin + Android Studio', 'Flutter / Dart'],
     },
     {
-      category: 'Tools & Contributions',
+      category: 'Tools & Infrastructure',
       mark: '§ IV',
-      items: ['Git, GitHub, CI/CD', 'Postman', 'Hackathons & Projects', 'Open Source & Clubs'],
+      items: ['Git, GitHub, CI/CD', 'JWT Authentication', 'Postman / REST Design', 'LibGDX (Game Dev)', 'Open Source & Clubs'],
     },
   ];
 
   const stats = [
-    { number: '2+', label: 'Years Learning' },
+    { number: '9.51', label: 'CGPA / 10' },
+    { number: '2', label: 'Research Papers' },
     { number: '10+', label: 'Projects Built' },
-    { number: '100%', label: 'Commitment' },
   ];
 
   return (
@@ -73,6 +73,49 @@ function About() {
           <div style={{ borderTop: '3px double var(--ink)', margin: '1rem auto', width: '200px' }} />
         </div>
 
+        {/* Education Box */}
+        <div style={{
+          border: '2px solid var(--ink)',
+          borderTop: '4px solid var(--ink)',
+          padding: '1rem 1.5rem',
+          marginBottom: '2.5rem',
+          backgroundColor: 'var(--paper-dark)',
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.7s ease 0.1s',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <div>
+              <div style={{ fontFamily: 'var(--font-special)', fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--ink-light)', marginBottom: '4px' }}>
+                Education
+              </div>
+              <div style={{ fontFamily: 'var(--font-headline)', fontSize: '1.2rem', fontWeight: 700, color: 'var(--ink)' }}>
+                TKM College of Engineering
+              </div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--ink)', fontStyle: 'italic' }}>
+                B.Tech in Computer Science & Engineering
+              </div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--ink-light)', marginTop: '2px' }}>
+                Kollam, Kerala, India · Sep 2023 – Jul 2027
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontFamily: 'var(--font-headline)', fontSize: '2rem', fontWeight: 900, color: 'var(--ink)', lineHeight: 1 }}>9.51</div>
+              <div style={{ fontFamily: 'var(--font-special)', fontSize: '0.55rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--ink-light)' }}>CGPA / 10</div>
+              <div style={{ fontFamily: 'var(--font-special)', fontSize: '0.55rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--ink-light)', marginTop: '4px' }}>
+                CSI · IEI Member
+              </div>
+            </div>
+          </div>
+          <div style={{ borderTop: '1px dashed var(--ink-light)', marginTop: '0.75rem', paddingTop: '0.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-special)', fontSize: '0.6rem', color: 'var(--ink-light)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              Relevant Coursework:
+            </span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--ink)', marginLeft: '6px' }}>
+              Data Structures, Algorithms, Web Development, Cybersecurity
+            </span>
+          </div>
+        </div>
+
         {/* Two-column intro text */}
         <div style={{
           columnCount: 2,
@@ -83,13 +126,13 @@ function About() {
           transition: 'opacity 0.8s ease 0.2s',
         }} className="responsive-cols">
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--ink)', textAlign: 'justify', margin: '0 0 1rem' }} className="dropcap">
-            I'm an enthusiastic <strong>Android Developer</strong> with a strong inclination toward solving real-world problems through mobile technology and artificial intelligence.
+            I'm a motivated <strong>Computer Science & Engineering student</strong> with a strong inclination toward solving real-world problems through full-stack development, machine learning, and mobile technology.
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--ink)', textAlign: 'justify', margin: '0 0 1rem' }}>
-            My development toolkit includes <strong>Kotlin, Flutter, and Firebase</strong>, which I use to craft intuitive and scalable mobile applications that prioritize performance and user experience.
+            My development toolkit spans <strong>TypeScript, FastAPI, PostgreSQL, and React</strong>, which I use to craft scalable applications that prioritize performance and user experience.
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--ink)', textAlign: 'justify', margin: '0 0 1rem' }}>
-            With a growing passion for <strong>AI and Machine Learning</strong>, I actively integrate predictive models and intelligent features into my apps to enhance functionality and personalization.
+            With growing expertise in <strong>AI & Machine Learning</strong> — including RAG pipelines, CLIP embeddings, and NLP — I actively integrate intelligent features into applications. My research has been published at <strong>ACL JUST-NLP 2025</strong> and presented at <strong>IEEE ICTEST 2026</strong>.
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--ink)', textAlign: 'justify', margin: 0 }}>
             I believe in continuous learning, clean code practices, and building solutions that are not only innovative but also accessible and impactful.
