@@ -5,7 +5,7 @@ import LegalAIImg from "../assets/images/Legal_AI.png";
 import FinAIImg from "../assets/images/Finai.png";
 import SignImg from "../assets/images/Sign.png";
 import AlrisImg from "../assets/images/Alris.png";
-import FixConnectImg from "../assets/images/FixConnect.jpg";
+import FixConnectImg from "../assets/images/Fixconnect.jpg";
 import SwivoraImg from "../assets/images/Swivora.png";
 import StoreImg from "../assets/images/StoreManagement.png";
 import useEmblaCarousel from "embla-carousel-react";
