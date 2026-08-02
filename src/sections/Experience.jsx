@@ -138,8 +138,9 @@ function Experience() {
                 padding: '1.5rem',
                 borderBottom: i < experiences.length - 1 ? '1px solid var(--ink)' : 'none',
                 backgroundColor: i % 2 === 0 ? 'var(--paper)' : 'var(--paper-dark)',
-                display: 'grid',
-                gridTemplateColumns: '1fr auto',
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
                 gap: '1rem',
               }}
             >

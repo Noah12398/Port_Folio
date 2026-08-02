@@ -246,7 +246,8 @@ function Certificates() {
         {/* Certificates Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 360px))',
+          justifyContent: 'center',
           gap: '1.5rem',
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 0.7s ease 0.35s',
